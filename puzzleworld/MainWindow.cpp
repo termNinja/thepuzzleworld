@@ -59,8 +59,8 @@ void MainWindow::mousePressEvent(QMouseEvent * coord)
         coord->y() >= 50 && coord->y() <= 50 * (dimension + 1))
     {
         std::cout << coord->x() << " " << coord->y() << std::endl;
-        int x = floor(coord->x() / 50) - 1;
-        int y = floor(coord->y() / 50) - 1;
+        int y = floor(coord->x() / 50) - 1;
+        int x = floor(coord->y() / 50) - 1;
         std::cout << x << " " << y << std::endl;
         auto field = m_game->getField();
         if (field[x][y] >= 0)
