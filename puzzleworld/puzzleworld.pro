@@ -7,6 +7,7 @@
 QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+QMAKE_CXXFLAGS += -std=c++11
 
 TARGET = puzzleworld
 TEMPLATE = app
@@ -25,16 +26,24 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-        MainWindow.cpp \
-        ThreeInARow.cpp \
         smtValidation/ThreeInAWayGenerator.cpp \
-    smtValidation/SmtSolver.cpp
+    smtValidation/SmtSolver.cpp \
+    game_2.cpp \
+    ThreeInARow.cpp\
+    Hitori.cpp\
+    game_1.cpp\
+    mainwindow.cpp
 
 HEADERS += \
-        MainWindow.hpp \
-        ThreeInARow.hpp \
         smtValidation/ThreeInAWayGenerator.hpp \
-    smtValidation/SmtSolver.hpp
+    smtValidation/SmtSolver.hpp \
+    game_2.hpp \
+    ThreeInARow.hpp\
+    Hitori.hpp\
+    game_1.hpp\
+    mainwindow.h
 
 FORMS += \
-        MainWindow.ui
+    game_2.ui \
+    game_1.ui\
+    mainwindow.ui
