@@ -3,12 +3,13 @@
 
 #include <QObject>
 #include <QProcess>
+#include "ThreeInAWayGenerator.hpp"
 
 class SmtSolver : public QObject
 {
     Q_OBJECT
 public:
-    explicit SmtSolver(QObject *parent = nullptr);
+    explicit SmtSolver(int n, QObject *parent = nullptr);
 
     /// Sends 'msg' to the child process (writes it to stdin).
     void sendCommandToSolver(std::string msg);
@@ -31,8 +32,13 @@ public slots:
     /// Handles the errors that can occur.
     void childProcessError(QProcess::ProcessError e);
 
+    void started();
+
+    void stateChanged(QProcess::ProcessState);
+
 private:
     QProcess* m_process;
+    ThreeInAWayGenerator m_generator;
 };
 
 #endif // SMTSOLVER_HPP

@@ -8,8 +8,10 @@
 #include "ThreeInAWayGenerator.hpp"
 
 #include <sstream>
+#include <QRegExp>
+#include <QDebug>
 
-std::vector<std::string> ThreeInAWayGenerator::generateInitialState(const std::vector<std::vector<short>>& state) const
+std::vector<std::string> ThreeInAWayGenerator::generateInitialState(const std::vector<std::vector<int>>& state) const
 {
     std::vector<std::string> result;
     for (unsigned i = 0; i < state.size(); i++)
@@ -230,7 +232,7 @@ std::vector<std::string> ThreeInAWayGenerator::generateYicesGetAllValues() const
     return {t};
 }
 
-std::vector<std::string> ThreeInAWayGenerator::generateYicesFullSolution(const std::vector<std::vector<short>>& tmp) const
+std::vector<std::string> ThreeInAWayGenerator::generateYicesFullSolution(const std::vector<std::vector<int>>& tmp) const
 {
     // (set-logic QF_LIA)
     auto header = this->generateYicesHeader();
@@ -258,3 +260,48 @@ std::vector<std::string> ThreeInAWayGenerator::generateYicesFullSolution(const s
     return header;
 }
 
+int ThreeInAWayGenerator::makeIntFromYicesGetValue(QString s)
+{
+    return s == "(- 1)" ? -1 : s.toInt();
+}
+
+
+std::vector<std::vector<int> > ThreeInAWayGenerator::parseSolution(QString solution) const
+{
+    return ThreeInAWayGenerator::parseSolutionStatic(solution, m_n);
+}
+
+std::vector<std::vector<int>> ThreeInAWayGenerator::parseSolutionStatic(QString solution, int n)
+{
+
+    std::vector<std::vector<int>> result;
+    result.resize(n);
+    for (int i = 0; i < n; i++)
+        result[i].resize(n);
+
+    qDebug() << "Data: " << solution;
+    QRegExp rx("x(\\d)+_(\\d+) (1|([(]- 1[)]))");
+
+    int pos = 0;
+    while ((pos = rx.indexIn(solution, pos)) != -1)
+    {
+        qDebug() << "x" << rx.cap(1).toInt() << "_" << rx.cap(2).toInt() << "=" << makeIntFromYicesGetValue(rx.cap(3));
+
+        int i = rx.cap(1).toInt();
+        int j = rx.cap(2).toInt();
+        int val = makeIntFromYicesGetValue(rx.cap(3));
+
+        // Insert into matrix
+        result[i][j] = val;
+
+        // Move to next occurence
+        pos += rx.matchedLength();
+    }
+
+    qDebug() << "Created matrix with values:";
+    for (unsigned i = 0; i < result.size(); i++)
+        for (unsigned j = 0; j < result[i].size(); j++)
+            qDebug() << "result[" << i << ", " << j << "] = " << result[i][j];
+
+    return result;
+}

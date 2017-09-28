@@ -1,16 +1,22 @@
 #include "SmtSolver.hpp"
 #include <QStringList>
 #include <QDebug>
+#include <QProcess>
 
-SmtSolver::SmtSolver(QObject *parent) : QObject(parent)
+#include "ThreeInAWayGenerator.hpp"
+
+SmtSolver::SmtSolver(int n, QObject *parent)
+    : QObject(parent), m_generator(ThreeInAWayGenerator(n))
 {
     m_process = new QProcess(parent);
     QStringList args;
 
     QObject::connect(m_process, SIGNAL(finished(int)), this, SLOT(childProcessFinished(int)));
     QObject::connect(m_process, SIGNAL(error(QProcess::ProcessError)), this, SLOT(childProcessError(QProcess::ProcessError)));
-    QObject::connect(m_process, SIGNAL(readyReadStandardOutput()), this, SLOT(childProcessMessageReadyStdout()));
+//    QObject::connect(m_process, SIGNAL(readyReadStandardOutput()), this, SLOT(childProcessMessageReadyStdout()));
     QObject::connect(m_process, SIGNAL(readyReadStandardError()), this, SLOT(childProcessMessageReadyStderr()));
+    QObject::connect(m_process, SIGNAL(started()), this, SLOT(started()));
+    QObject::connect(m_process, SIGNAL(stateChanged(QProcess::ProcessState)), this, SLOT(stateChanged(QProcess::ProcessState)));
 
     qDebug() << "Starting yices smt solver.";
     m_process->start("yices-smt2", args);
@@ -32,6 +38,7 @@ void SmtSolver::killChildProcess()
 void SmtSolver::childProcessFinished(int status)
 {
     qDebug() << "Child process finished with code " + QString::number(status);
+    childProcessMessageReadyStdout();
 }
 
 void SmtSolver::childProcessMessageReadyStdout()
@@ -42,12 +49,26 @@ void SmtSolver::childProcessMessageReadyStdout()
     if (msg == "sat\n")
     {
         qDebug() << "Emmiting signal done(true)";
-        emit done(true);
+        emit done(true, {});
     }
     else if (msg == "unsat\n")
     {
         qDebug() << "Emmiting signal done(false)";
-        emit done(false);
+        emit done(false, {});
+    }
+    else if (msg.contains("sat"))
+    {
+        // We have received both 'sat' and values for variables
+        auto result = m_generator.parseSolution(msg);
+        emit done(true, result);
+    }
+    else if (msg[0] == '(')
+    {
+        // This should not happen, though this condition was added just in case.
+        qDebug() << "Problem detected. Child process hasnt reported SAT/UNSAT and variable values in one msg but instead variables are sent in a separate msg!";
+        qDebug() << "Received values for variables.";
+        auto result = m_generator.parseSolution(msg);
+        exit(1);
     }
 }
 
@@ -79,7 +100,28 @@ void SmtSolver::childProcessError(QProcess::ProcessError e)
         case QProcess::ProcessError::UnknownError:
             qDebug() << "Unknown error!";
             break;
-        default:
-            qDebug() << e;
     }
 }
+
+void SmtSolver::started()
+{
+    qDebug() << "Child process confirms it has started";
+}
+
+void SmtSolver::stateChanged(QProcess::ProcessState newState)
+{
+    qDebug() << "Process status has changed.";
+    if (newState == QProcess::ProcessState::NotRunning)
+        qDebug() << "Process state: Not Running";
+    else if (newState == QProcess::ProcessState::Running)
+        qDebug() << "Process state: Running";
+    else if (newState == QProcess::ProcessState::Starting)
+        qDebug() << "Process state: Starting";
+}
+
+
+
+
+
+
+

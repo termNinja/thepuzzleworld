@@ -2,6 +2,7 @@
 #include "ui_MainWindow.h"
 
 #include <cmath>
+#include "smtValidation/SmtTester.hpp"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -15,6 +16,9 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->pb_new_game, SIGNAL(clicked(bool)), this, SLOT(newGame()));
 
     initialiseRects(m_game->getDimension());
+
+    SmtTester tester;
+    tester.performWriteTesting();
 }
 
 MainWindow::~MainWindow()
