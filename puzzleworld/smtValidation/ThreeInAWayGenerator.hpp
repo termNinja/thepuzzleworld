@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <string>
+#include <QString>
 
 class ThreeInAWayGenerator
 {
@@ -28,7 +29,7 @@ public:
 
     /// Set initial state
     /// 1 marks the blue square, -1 the white square
-    std::vector<std::string> generateInitialState(const std::vector<std::vector<short>>& state) const;
+    std::vector<std::string> generateInitialState(const std::vector<std::vector<int>>& state) const;
 
     /// Declare all variables that will be required for solution.
     std::vector<std::string> generateYicesVariableDeclaration() const;
@@ -43,7 +44,17 @@ public:
     std::vector<std::string> generateYicesGetAllValues() const;
 
     /// Creates the full yices smt program;
-    std::vector<std::string> generateYicesFullSolution(const std::vector<std::vector<short>>& tmp) const;
+    std::vector<std::string> generateYicesFullSolution(const std::vector<std::vector<int> >& tmp) const;
+
+    /// Parses the given solution by the yices solver
+    std::vector<std::vector<int>> parseSolution(QString solution) const;
+
+    /// Parses the given solution by the yices solver
+    static std::vector<std::vector<int>> parseSolutionStatic(QString solution, int n) ;
+
+    /// Converts numbers that are parsed from yices into shorts
+    static int makeIntFromYicesGetValue(QString s);
+
 
 private:
     int m_n;

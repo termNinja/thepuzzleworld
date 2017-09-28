@@ -29,13 +29,15 @@ SOURCES += \
         MainWindow.cpp \
         ThreeInARow.cpp \
         smtValidation/ThreeInAWayGenerator.cpp \
-    smtValidation/SmtSolver.cpp
+    smtValidation/SmtSolver.cpp \
+    smtValidation/SmtTester.cpp
 
 HEADERS += \
         MainWindow.hpp \
         ThreeInARow.hpp \
         smtValidation/ThreeInAWayGenerator.hpp \
-    smtValidation/SmtSolver.hpp
+    smtValidation/SmtSolver.hpp \
+    smtValidation/SmtTester.hpp
 
 FORMS += \
         MainWindow.ui \
