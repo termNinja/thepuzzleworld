@@ -7,6 +7,7 @@
 QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+QMAKE_CXXFLAGS += -std=c++11
 
 TARGET = puzzleworld
 TEMPLATE = app
@@ -37,4 +38,5 @@ HEADERS += \
     smtValidation/SmtSolver.hpp
 
 FORMS += \
-        MainWindow.ui
+        MainWindow.ui \
+    ThreeInARow.ui
