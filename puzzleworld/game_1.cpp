@@ -1,5 +1,6 @@
 #include "game_1.hpp"
 #include "ui_game_1.h"
+#include "smtValidation/SmtTester.hpp"
 
 #include <cmath>
 
