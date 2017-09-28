@@ -14,6 +14,8 @@ public:
     /// Sends 'msg' to the child process (writes it to stdin).
     void sendCommandToSolver(std::string msg);
 
+    void solve();
+
     void killChildProcess();
 
 signals:

@@ -10,22 +10,10 @@ SmtTester::SmtTester(QObject* parent)
 
 void SmtTester::performWriteTesting()
 {
+    // Construct the solver object
     SmtSolver* solver = new SmtSolver(6, m_parent);
-    ThreeInAWayGenerator generator(6);
+    //                                ^ specify board dimension
 
-    std::vector<std::vector<int>> initVals = {
-           { 0,  0, 1, 0,  0,  0},
-           { 0,  1, 0, 0, -1,  0},
-           { 0, -1, 0, 0,  0,  0},
-           {-1,  0, 1, 0, -1,  0},
-           { 0,  0, 0, 0,  0, -1},
-           { 0,  1, 1, 0,  1,  0},
-       };
-
-    std::vector<std::string> cmds = generator.generateYicesFullSolution(initVals);
-    std::string cmd = "";
-    for (auto line: cmds)
-        cmd += line + "\n";
-
-    solver->sendCommandToSolver(cmd);
+    // invoke the solve procedure
+    solver->solve();
 }

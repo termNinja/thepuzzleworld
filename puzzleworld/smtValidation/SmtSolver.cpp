@@ -32,6 +32,30 @@ void SmtSolver::sendCommandToSolver(std::string msg)
     m_process->write(msg.c_str());
 }
 
+void SmtSolver::solve()
+{
+    // Set the initial state of the board
+    // 0    user can change the value of the field
+    // 1    field is blue
+    // -1   field is white
+    std::vector<std::vector<int>> initVals = {
+       { 0,  0, 1, 0,  0,  0},
+       { 0,  1, 0, 0, -1,  0},
+       { 0, -1, 0, 0,  0,  0},
+       {-1,  0, 1, 0, -1,  0},
+       { 0,  0, 0, 0,  0, -1},
+       { 0,  1, 1, 0,  1,  0},
+   };
+
+    // Generate all
+    std::vector<std::string> cmds = m_generator.generateYicesFullSolution(initVals);
+    std::string cmd = "";
+    for (auto line: cmds)
+        cmd += line + "\n";
+
+    sendCommandToSolver(cmd);
+}
+
 void SmtSolver::killChildProcess()
 {
     qDebug() << "Killing child process.";
