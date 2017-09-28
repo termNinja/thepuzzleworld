@@ -13,6 +13,9 @@ SmtSolver::SmtSolver(int n, QObject *parent)
 
     QObject::connect(m_process, SIGNAL(finished(int)), this, SLOT(childProcessFinished(int)));
     QObject::connect(m_process, SIGNAL(error(QProcess::ProcessError)), this, SLOT(childProcessError(QProcess::ProcessError)));
+
+    // Disabled and going to be remove probably because it's much easier to parse child process output if we wait for child
+    // process to finish and we read everything in one go.
 //    QObject::connect(m_process, SIGNAL(readyReadStandardOutput()), this, SLOT(childProcessMessageReadyStdout()));
     QObject::connect(m_process, SIGNAL(readyReadStandardError()), this, SLOT(childProcessMessageReadyStderr()));
     QObject::connect(m_process, SIGNAL(started()), this, SLOT(started()));
@@ -118,10 +121,3 @@ void SmtSolver::stateChanged(QProcess::ProcessState newState)
     else if (newState == QProcess::ProcessState::Starting)
         qDebug() << "Process state: Starting";
 }
-
-
-
-
-
-
-

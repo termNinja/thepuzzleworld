@@ -17,7 +17,16 @@ public:
     void killChildProcess();
 
 signals:
+    // True if puzzle can be solved, false otherwise.
     void done(bool sat);
+
+    // Variable 'sat' is True if puzzle can be solved a 'solution'
+    // is filled for values of variables x_i_j (use i and j to index).
+    // 1 means the square is blue, -1 means that it's white.
+    void done(bool sat, std::vector<std::vector<int>> solution);
+
+    // True if solution for the puzzle is unique, false otherwise.
+    void solutionUnique(bool status);
 
 public slots:
     /// Handles the event of child processed finishing with work.
