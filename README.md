@@ -31,6 +31,12 @@ You can find [here](https://www.brainbashers.com/abcpath.asp) more about the gam
 
 You can find [here](https://www.brainbashers.com/hitori.asp) more about the game.
 
+#### Qt5 application
+Here are some screenshots.
+<img src="./report/slike/app.png">
+:x
+<img src="./report/slike/app_solved.png">
+
 ### How to compile
 Make sure you have:
 - Qt5
