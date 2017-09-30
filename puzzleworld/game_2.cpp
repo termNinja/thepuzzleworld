@@ -1,5 +1,5 @@
 #include "game_2.hpp"
-#include "ui_Game_2.h"
+#include "ui_game_2.h"
 
 #include <cmath>
 #include <QPixmap>
@@ -60,15 +60,15 @@ void Game_2::paintEvent(QPaintEvent *event)
         {
             auto pos = field[i][j];
             if (pos.first == 1)
-                painter->drawTiledPixmap(rects[k++], QPixmap("./../images/number_1.png"));
+                painter->drawTiledPixmap(rects[k++], QPixmap("C:/Users/lazar/Desktop/15/number_1.png"));
             else if (pos.first == 2)
-                painter->drawTiledPixmap(rects[k++], QPixmap("./../images/number_2.png"));
+                painter->drawTiledPixmap(rects[k++], QPixmap("C:/Users/lazar/Desktop/15/number_2.png"));
             else if (pos.first == 3)
-                painter->drawTiledPixmap(rects[k++], QPixmap("./../images/number_3.png"));
+                painter->drawTiledPixmap(rects[k++], QPixmap("C:/Users/lazar/Desktop/15/number_3.png"));
             else if (pos.first == 4)
-                painter->drawTiledPixmap(rects[k++], QPixmap("./../images/number_4.png"));
+                painter->drawTiledPixmap(rects[k++], QPixmap("C:/Users/lazar/Desktop/15/number_4.png"));
             else if (pos.first == 5)
-                painter->drawTiledPixmap(rects[k++], QPixmap("./../images/number_5.png"));
+                painter->drawTiledPixmap(rects[k++], QPixmap("C:/Users/lazar/Desktop/15/number_5.png"));
             else
                 k++;
         }

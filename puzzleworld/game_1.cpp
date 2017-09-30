@@ -1,6 +1,5 @@
 #include "game_1.hpp"
 #include "ui_game_1.h"
-#include "smtValidation/SmtTester.hpp"
 
 #include <cmath>
 
@@ -16,6 +15,11 @@ Game_1::Game_1(QWidget *parent) :
     connect(ui->pb_new_game, SIGNAL(clicked(bool)), this, SLOT(newGame()));
 
     initialiseRects(m_game->getDimension());
+
+    m_solver = new SmtSolver(6, this);
+    m_solver->solve();
+
+    connect(m_solver, SIGNAL(done(bool, std::vector<std::vector<int>>)), this, SLOT(getSolution(bool, std::vector<std::vector<int>>)));
 }
 
 Game_1::~Game_1()
@@ -57,7 +61,7 @@ void Game_1::mousePressEvent(QMouseEvent * coord)
     ui->lb_info->setText("");
     int dimension = m_game->getDimension();
     if (coord->x() >= 50 && coord->x() <= 50 * (dimension + 1) &&
-        coord->y() >= 50 && coord->y() <= 50 * (dimension + 1))
+            coord->y() >= 50 && coord->y() <= 50 * (dimension + 1))
     {
         std::cout << coord->x() << " " << coord->y() << std::endl;
         int y = floor(coord->x() / 50) - 1;
@@ -75,7 +79,6 @@ void Game_1::changeFieldDimensions(int index)
 {
     renderAgain();
 }
-
 
 void Game_1::checkSolution()
 {
@@ -97,7 +100,10 @@ void Game_1::restartGame()
 void Game_1::showAnswer()
 {
     ui->lb_info->setText("Correct answer :)");
+    m_solver->solve();
+
     m_game->showSolution();
+
     repaint();
 }
 
@@ -112,6 +118,17 @@ void Game_1::initialiseRects(int n)
 void Game_1::newGame()
 {
     renderAgain();
+}
+
+void Game_1::getSolution(bool status, std::vector<std::vector<int> > solution)
+{
+    for (unsigned i = 0; i < solution.size(); i++)
+        for (unsigned j = 0; j < solution.size(); j++)
+            if (solution[i][j] == 1)
+                solution[i][j] = -2;
+
+    m_game->setSolution(solution);
+    update();
 }
 
 void Game_1::renderAgain()
@@ -138,6 +155,12 @@ void Game_1::renderAgain()
         initialiseRects(6);
         break;
     }
+    m_solver->killChildProcess();
+    delete m_solver;
+
+    m_solver = new SmtSolver(6, this);
+    connect(m_solver, SIGNAL(done(bool, std::vector<std::vector<int>>)), this, SLOT(getSolution(bool, std::vector<std::vector<int>>)));
+    m_solver->solve();
     repaint();
     qApp->processEvents();
 }

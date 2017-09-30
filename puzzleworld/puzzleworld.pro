@@ -28,17 +28,17 @@ SOURCES += \
         main.cpp \
         smtValidation/ThreeInAWayGenerator.cpp \
     smtValidation/SmtSolver.cpp \
+    smtValidation/SmtTester.cpp \
     game_2.cpp \
     ThreeInARow.cpp\
     Hitori.cpp\
     game_1.cpp\
-    mainwindow.cpp\
-    smtValidation/SmtTester.cpp\
-    smtValidation/SmtTester.cpp
+    mainwindow.cpp
 
 HEADERS += \
         smtValidation/ThreeInAWayGenerator.hpp \
     smtValidation/SmtSolver.hpp \
+    smtValidation/SmtTester.hpp \
     game_2.hpp \
     ThreeInARow.hpp\
     Hitori.hpp\
@@ -49,12 +49,3 @@ FORMS += \
     game_2.ui \
     game_1.ui\
     mainwindow.ui
-
-FORMS += \
-        MainWindow.ui \
-    ThreeInARow.ui\
-    smtValidation/SmtTester.hpp
-
-FORMS += \
-        MainWindow.ui \
-    ThreeInARow.ui

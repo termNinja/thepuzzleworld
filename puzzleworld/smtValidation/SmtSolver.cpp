@@ -25,6 +25,11 @@ SmtSolver::SmtSolver(int n, QObject *parent)
     m_process->start("yices-smt2", args);
 }
 
+SmtSolver::~SmtSolver()
+{
+    delete m_process;
+}
+
 void SmtSolver::sendCommandToSolver(std::string msg)
 {
     qDebug() << "Sending msg to solver";

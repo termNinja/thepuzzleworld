@@ -8,6 +8,7 @@
 #include "ThreeInAWayGenerator.hpp"
 
 #include <sstream>
+#include <iostream>
 #include <QRegExp>
 #include <QDebug>
 
@@ -300,8 +301,14 @@ std::vector<std::vector<int>> ThreeInAWayGenerator::parseSolutionStatic(QString 
 
     qDebug() << "Created matrix with values:";
     for (unsigned i = 0; i < result.size(); i++)
+    {
         for (unsigned j = 0; j < result[i].size(); j++)
-            qDebug() << "result[" << i << ", " << j << "] = " << result[i][j];
+        {
+//            qDebug() << "result[" << i << ", " << j << "] = " << result[i][j];
+            std::cout << result[i][j] << " ";
+        }
+        std::cout << std::endl;
+    }
 
     return result;
 }

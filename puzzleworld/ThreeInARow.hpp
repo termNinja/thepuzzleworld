@@ -9,7 +9,7 @@ class ThreeInARow
 
 public:
     ThreeInARow(int dimension)
-        :m_dimension(dimension)
+        : m_dimension(dimension)
     {
         generateInitState();
     }
@@ -17,10 +17,16 @@ public:
     void generateInitState();
     void findSolution();
     bool checkSolution();
+    void showSolution();
 
     int getDimension();
     void restartGame();
-    void showSolution();
+
+    void setCurrentStateAsSolved();
+
+    void setSolution(std::vector<std::vector<int>> solution);
+
+    std::vector<std::vector<int>>& getSolution();
     std::vector<std::vector<int>> getField();
     void setField(std::vector<std::vector<int>> field);
 

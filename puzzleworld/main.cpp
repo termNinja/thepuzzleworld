@@ -1,4 +1,5 @@
-#include "mainwindow.h"
+//#include "game_2.hpp"
+#include "game_1.hpp"
 #include <QApplication>
 
 #include <sstream>
@@ -11,7 +12,7 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    MainWindow w;
+    Game_1 w;
     w.show();
 
     return a.exec();

@@ -17,6 +17,7 @@
 #include <iostream>
 
 #include "ThreeInARow.hpp"
+#include "smtValidation/SmtSolver.hpp"
 
 namespace Ui {
 class Game_1;
@@ -42,10 +43,14 @@ public slots:
     void showAnswer();
     void newGame();
 
+    void getSolution(bool status, std::vector<std::vector<int>> solution);
+
 private:
     Ui::Game_1 *ui;
     QRect *rects = new QRect[36];
     ThreeInARow *m_game = new ThreeInARow(6);
+
+    SmtSolver* m_solver;
 };
 
 #endif // MAINWINDOW_HPP

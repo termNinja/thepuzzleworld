@@ -3,7 +3,6 @@
 
 #include <QObject>
 
-
 class SmtTester
 {
 public:

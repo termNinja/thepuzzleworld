@@ -10,12 +10,15 @@ class SmtSolver : public QObject
     Q_OBJECT
 public:
     explicit SmtSolver(int n, QObject *parent = nullptr);
+    ~SmtSolver();
 
     /// Sends 'msg' to the child process (writes it to stdin).
     void sendCommandToSolver(std::string msg);
 
+    /// Perform the solving process.
     void solve();
 
+    /// Kill the child process and terminate work.
     void killChildProcess();
 
 signals:
@@ -43,8 +46,10 @@ public slots:
     /// Handles the errors that can occur.
     void childProcessError(QProcess::ProcessError e);
 
+    /// Handles the logic when the child process starts.
     void started();
 
+    /// Handles the logic on when the child process status changes.
     void stateChanged(QProcess::ProcessState);
 
 private:
