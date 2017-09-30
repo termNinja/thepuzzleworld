@@ -3,3 +3,5 @@ build-*
 *.out
 moc_*
 *.autosave
+*.pro.user.*
+SAVER.txt
